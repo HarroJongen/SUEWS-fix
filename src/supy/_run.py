@@ -136,7 +136,9 @@ def _check_supy_error():
 
     if _sd.f90wrap_module_ctrl_error_state__get__supy_error_flag():
         code = int(_sd.f90wrap_module_ctrl_error_state__get__supy_error_code())
-        message = str(_sd.f90wrap_module_ctrl_error_state__get__supy_error_message()).strip()
+        message = str(
+            _sd.f90wrap_module_ctrl_error_state__get__supy_error_message()
+        ).strip()
         # Reset error state for next call
         _sd.f90wrap_module_ctrl_error_state__reset_supy_error()
         raise SUEWSKernelError(code, message)
@@ -330,7 +332,9 @@ def suews_cal_tstep_multi(dict_state_start, df_forcing_block, debug_mode=False):
     except Exception as ex:
         # Include simulation block context for debugging
         len_sim = dict_input.get("len_sim", "unknown")
-        logger_supy.exception("Kernel call failed for simulation block of length %s", len_sim)
+        logger_supy.exception(
+            "Kernel call failed for simulation block of length %s", len_sim
+        )
         raise RuntimeError(f"SUEWS kernel error (block length {len_sim}): {ex}") from ex
     else:
         # update state variables
@@ -908,7 +912,9 @@ def pack_grid_dict(ser_grid):
                         # Log at WARNING level - dropped variables could cause kernel errors
                         logger_supy.warning(
                             "Could not pack variable '%s' (tried both methods): %s / %s",
-                            var, e, e2
+                            var,
+                            e,
+                            e2,
                         )
         else:
             pass
